@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+
+	<script type="text/javascript">
+    $(document).ready(function() {
+        var id = decodeURI(getUrlVars()["id"]);
+        var kategori = decodeURI(getUrlVars()["kategori"]);
+        var list = decodeURI(getUrlVars()["list"]);
+        var harga = decodeURI(getUrlVars()["harga"]);
+        $("#id").val(id);
+        $("#kategori").val(kategori);
+        $("#list").val(list);
+        $("#harga").val(harga);
+        $("#update").click(function() {
+            var id = $("#id").val();
+            var kategori = $("#kategori").val();
+            var list = $("#list").val();
+            var harga = $("#harga").val();
+            var dataString = "id=" + id + "&kategori=" + kategori + "&list=" + list + "&harga=" + harga + "&update=";
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/list/www/update.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Berhasil Di Update");
+                        $("#update").val("Update");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+            var id = $("#id").val();
+            var dataString = "id=" + id + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "http://localhost/list/www/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Berhasil Di Hapus");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+	
+    <div class="bar bar-header bar-assertive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update List Belanja</h1>
+        <a class="button button-clear" href="readjson.html">Daftar List</a>
+    </div>
+    <br/>
+    <br/>
+
+	
+    <div class="list">
+        <input type="hidden" id="id" value="" />
+        <div class="item">
+            <label>Kategori</label>
+            <input type="text" id="kategori" value="" />
+        </div>
+        <div class="item">
+            <label>List</label>
+            <input type="text" id="list" value="" />
+        </div>
+        <div class="item">
+            <label>Harga</label>
+            <input type="text" id="harga" value="" />
+        </div>
+
+		
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+</html>

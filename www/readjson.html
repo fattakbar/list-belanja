@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var url = "http://localhost/list/www/json.php";
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var id = field.id;
+                var kategori = field.kategori;
+                var list = field.list;
+                var harga = field.harga;
+                $("#listview").append("<a class='item' href='form.html?id=" + id + "&kategori=" + kategori + "&list=" + list + "&harga=" + harga + "'><span class='item-note'>Rp. " + harga + "</span><h2>" + kategori + " </h2><p>" + list + "</p></a>");
+            });
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-assertive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Daftar List</h1>
+    </div>
+    <br/>
+    <br/>
+    <ul class="list" id="listview">
+    </ul>
+</body>
+</html>
